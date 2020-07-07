@@ -1,8 +1,65 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "test-jest": {
+      "root": "apps/test-jest",
+      "sourceRoot": "apps/test-jest/src",
+      "projectType": "application",
+      "prefix": "test-jest",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/test-jest",
+            "main": "apps/test-jest/src/main.ts",
+            "tsConfig": "apps/test-jest/tsconfig.app.json",
+            "assets": ["apps/test-jest/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/test-jest/src/environments/environment.ts",
+                  "with": "apps/test-jest/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "test-jest:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/test-jest/tsconfig.app.json",
+              "apps/test-jest/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/test-jest/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/test-jest/jest.config.js",
+            "tsConfig": "apps/test-jest/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/express"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -62,5 +119,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "defaultProject": "test-jest"
 }

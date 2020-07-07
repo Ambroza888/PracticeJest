@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "jest", "express"],
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts"]
+}
